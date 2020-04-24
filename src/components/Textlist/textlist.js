@@ -30,6 +30,7 @@ const Textlist =  ({valueText}) => {
                             setText(evt.target.value);
                         }}/>
                         <button>Save</button>
+                        <button onClick={() => setEdit(false)}>Cancel</button>
                     </form>
                 </td>
             </tr>

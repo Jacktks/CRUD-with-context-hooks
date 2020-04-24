@@ -8,10 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const TextConText = createContext();
 
 const TextContextProvider = (props) => {
-    const [valueText, setvalueText] = useState([], () => {
-        const localData = localStorage.getItem('valueText');
-        return localData ? JSON.parse(localData) : [];
-    });
+    const [valueText, setvalueText] = useState([]);
 
     useEffect(() => {
         async function getApi(){
@@ -25,9 +22,7 @@ const TextContextProvider = (props) => {
             }
         }
         getApi();
-        localStorage.setItem('valueText', JSON.stringify(valueText));
-        console.log(valueText);
-    }, [valueText]);
+    }, []);
 
     const removeText = (id) => {
         setvalueText(valueText.filter(e => e.id !== id));
