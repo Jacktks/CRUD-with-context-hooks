@@ -21,9 +21,15 @@ const Text = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {valueText.map(texts => {
+                    {valueText.length > 0 ? (
+                        valueText.map(texts => {
                         return (<Textlist valueText={texts} id={texts.id} key={texts.id}/>
-                    )})}
+                    )})
+                    ) : (
+                        <tr>
+                            <td>No text!</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>

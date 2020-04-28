@@ -1,14 +1,15 @@
-import React, {createContext, useState, useEffect} from 'react';
+import React, {createContext, useState, useEffect, useReducer} from 'react';
 
 import axios from 'axios'; 
 
-import { v4 as uuidv4 } from 'uuid';
-
+import {textReducer} from '../reducers/TextReducer';
 
 export const TextConText = createContext();
 
 const TextContextProvider = (props) => {
-    const [valueText, setvalueText] = useState([]);
+    const [valueText, dispatch] = useReducer(textReducer, []);
+    const [isComplete, setIsComplete] = useState(false)
+    console.log(valueText);
 
     useEffect(() => {
         async function getApi(){
@@ -16,7 +17,7 @@ const TextContextProvider = (props) => {
                 const URL_API = 'https://5e8d7fc422d8cd0016a79566.mockapi.io/api/comments';
                 let API = await axios(URL_API);
     
-                setvalueText(API.data);
+                textReducer(API.data);
             } catch(err) {
                 console.log('Error is', err.message)
             }
@@ -24,25 +25,8 @@ const TextContextProvider = (props) => {
         getApi();
     }, []);
 
-    const removeText = (id) => {
-        setvalueText(valueText.filter(e => e.id !== id));
-    };
-
-    const updateText = (id, updated) => {
-        const update = valueText.map(text => {
-            if(text.id === id){
-                return {...text, text: updated}   
-            } return text;
-        });
-        setvalueText(update)
-    }
-
-    const addText = (text) => {
-        setvalueText([...valueText, {text, id: uuidv4()}])
-      };
-
     return(
-        <TextConText.Provider value={{valueText, removeText, addText, updateText}}>
+        <TextConText.Provider value={{valueText, dispatch}}>
             {props.children}
         </TextConText.Provider>
     )

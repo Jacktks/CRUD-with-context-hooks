@@ -5,12 +5,16 @@ import {TextConText} from '../../context/Textcontext';
 
 const AddText = () => {
 
-    const {addText} = useContext(TextConText);
+    const {dispatch} = useContext(TextConText);
     const [text, setText] = useState('');
+    const [completed, setCompleted] = useState(true);
 
     const add = (evt) => {
         evt.preventDefault();
-        addText(text);
+        dispatch({type: 'ADD_TEXT', customq: {
+            text,
+            completed
+        }});
         setText('');
     }
 
