@@ -7,12 +7,10 @@ import {textReducer} from '../reducers/TextReducer';
 export const TextConText = createContext();
 
 const TextContextProvider = (props) => {
-    const [valueText, dispatch] = useReducer(textReducer, [
-        {text: 'hello', id: '1'},
-        {text: 'abc', id: '2'}
-    ]);
-    
-    console.log(valueText);
+    const [valueText, dispatch] = useReducer(textReducer, [], () => {
+        const localData = localStorage.getItem('data');
+        return localData ? JSON.parse(localData) : []
+    });
 
     useEffect(() => {
         async function getApi(){
@@ -22,13 +20,17 @@ const TextContextProvider = (props) => {
                 const {data} = API;
                 console.log(data);
     
-                dispatch({type: 'UPDATE_TEXT', data})
+                dispatch({type: 'UPDATE_TEXT', data});
             } catch(err) {
                 console.log('Error is', err.message)
             }
         }
+
         getApi();
-    }, []);
+
+        localStorage.setItem('data', JSON.stringify(valueText));
+        
+    }, [valueText]);
 
     return(
         <TextConText.Provider value={{valueText, dispatch}}>
