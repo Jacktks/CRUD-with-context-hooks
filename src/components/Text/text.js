@@ -23,7 +23,7 @@ const Text = () => {
                 <tbody>
                     {valueText.length > 0 ? (
                         valueText.map(texts => {
-                        return (<Textlist valueText={texts} id={texts.id} key={texts.id}/>
+                        return (<Textlist valueText={texts} key={texts.id}/>
                     )})
                     ) : (
                         <tr>
@@ -36,4 +36,4 @@ const Text = () => {
     )
 }
 
-export default Text;
+export default React.memo(Text);
